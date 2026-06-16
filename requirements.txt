@@ -1,0 +1,5 @@
+
+# opportunity_mcp dependencies
+mcp>=1.2.0        # official MCP Python SDK — gives us FastMCP (the server framework)
+httpx>=0.27.0     # async HTTP client — fetches job listings without blocking the event loop
+pydantic>=2.6     # data validation + our Opportunity schema (the normalization target)
