@@ -1,11 +1,12 @@
 """opportunity_mcp server: exposes job-search tools to an MCP client over stdio."""
 
+import itertools
 import asyncio
 from mcp.server.fastmcp import FastMCP
-from sources import remoteok, remotive
+from sources import remoteok, remotive, hn
 
 mcp = FastMCP("opportunity_mcp")
-SOURCES = {"remoteok": remoteok.fetch, "remotive": remotive.fetch}
+SOURCES = {"remoteok": remoteok.fetch, "remotive": remotive.fetch, "hn": hn.fetch}
 
 @mcp.tool()
 
@@ -19,7 +20,7 @@ async def search(query: str = "", limit: int = 10, sources: list[str] | None = N
           chosen = sources or list(SOURCES)
           fetchers = [SOURCES[s](query=query, limit=limit) for s in chosen if s in SOURCES]
           results = await asyncio.gather(*fetchers)
-          merged = [o for batch in results for o in batch]
+          merged = [o for group in itertools.zip_longest(*results) for o in group if o is not None]
 
           return [o.model_dump() for o in merged[:limit]]
 
