@@ -66,5 +66,45 @@ def extract_skills(text: str) -> list[str]:
             tokens[i + n] = ""
   return sorted(found - STOPSKILLS)
 
+def _guess_type(line: str) -> str:
+  l = line.lower()
+  if any(w in l for w in ("university", "college", "b.tech", "m.tech", "bachelor", "master", "degree", "gpa", "cgpa")):
+    return "education"
+  if any(w in l for w in ("work", "experience", "employment", "hired", "hiring", "role", "position")):
+    return "experience"
+  if any(w in l for w in ("project", "repo", "github", "gitlab", "bitbucket")):
+    return "project"
+  if any(w in l for w in ("cert", "certification", "certificate", "course", "diploma", "license")):
+    return "certification"
+  if any(w in l for w in ("language", "speak", "fluent", "proficient", "native", "bilingual", "multilingual")):
+    return "language"
+  if any(w in l for w in ("award", "prize", "honor", "recognition", "scholarship", "fellowship", "grant", "hackathon")):
+    return "award"
+  if any(w in l for w in ("publication", "paper", "conference", "journal", "patent", "article", "book", "poster")):
+    return "publication"
+  if any(w in l for w in ("volunteer", "volunteering", "ngo", "nonprofit", "charity", "community", "service")):
+    return "volunteer"
+  return "other"
+
+@mcp.tool()
+def extract_facts(resume_text: str) -> list[dict]:
+  """Parse a resume into atomic facts (id, type, text, tags, source_ref). Pass the raw resume text; returns the per-session fact base."""
+  facts = []
+  for line in resume_text.splitlines():
+    line = line.strip()
+    if not line:
+      continue
+    fact_type = _guess_type(line)
+    tags = extract_skills(line)
+    fact = Fact(
+      id=str(len(facts)),
+      type=fact_type,
+      text=line,
+      tags=tags,
+      source_ref="resume",
+    )
+    facts.append(fact)
+  return [f.model_dump() for f in facts]
+
 if __name__ == "__main__":
           mcp.run()

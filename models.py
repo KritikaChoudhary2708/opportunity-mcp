@@ -21,7 +21,7 @@ class Opportunity(BaseModel):
 
 class Fact(BaseModel):
           id: str
-          type: Literal["experience", "project", "skill", "education", "metric"]
+          type: Literal["experience", "project", "skill", "education", "certification", "language", "award", "publication", "volunteer", "metric", "other"]
           text: str
           tags: list[str] = []
           source_ref: str = ""
