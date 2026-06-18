@@ -2,6 +2,7 @@
  Every normalizer in source/ will produce one of these. """
 
 from pydantic import BaseModel, Field
+from typing import Literal
 
 class Opportunity(BaseModel):
           """One job or freelance listing, normalised to common schema"""
@@ -17,4 +18,11 @@ class Opportunity(BaseModel):
           salary: str = Field("", description="Normalized salary range, may be empty")
           snippet: str = Field("", description="Short description excerpt")
 
+
+class Fact(BaseModel):
+          id: str
+          type: Literal["experience", "project", "skill", "education", "metric"]
+          text: str
+          tags: list[str] = []
+          source_ref: str = ""
           
