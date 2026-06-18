@@ -1,15 +1,20 @@
 """opportunity_mcp server: exposes job-search tools to an MCP client over stdio."""
 
+import re
+from pathlib import Path
 import itertools
 import asyncio
 from mcp.server.fastmcp import FastMCP
 from sources import remoteok, remotive, hn
+from models import Fact
 
+SKILLS_FILE = Path(__file__).parent / "data" / "skills.txt"
+SKILLS = {line.strip() for line in SKILLS_FILE.read_text(encoding="utf-8").splitlines() if line.strip()}
+STOPSKILLS = {"computer", "engineering", "design", "database", "software", "it", "data"}
 mcp = FastMCP("opportunity_mcp")
 SOURCES = {"remoteok": remoteok.fetch, "remotive": remotive.fetch, "hn": hn.fetch}
 
 @mcp.tool()
-
 async def search(query: str = "", limit: int = 10, sources: list[str] | None = None) -> list[dict]:
           """Search remote job and internship listings and return matching opportunities.
           Args:
@@ -41,7 +46,25 @@ async def get_job(id: str, source:str)-> dict:
             return o.model_dump()
   return {"error": f"no job with id '{id}' in source '{source}'"}
 
+@mcp.resource("resume://schema")
+def resume_schema() -> dict:
+  """The exact shape every resume fact must follow, so any client can produce valid facts."""
+  return Fact.model_json_schema()
 
+@mcp.tool()
+def extract_skills(text: str) -> list[str]:
+  """Extract the skills named in a job description. Pass the raw JD text; returns the matched skills, deduplicated and sorted."""
+  tokens = [t.rstrip(".") for t in re.findall(r"[a-z0-9+#.]+", text.lower())]
+  found = set()
+  for n in (1, 2, 3):
+    for i in range(len(tokens) - n + 1):
+      gram = " ".join(tokens[i:i + n])
+      if gram in SKILLS:
+        found.add(gram)
+        if n > 1 and i + n < len(tokens):
+            # Avoid overlapping multi-word matches if possible
+            tokens[i + n] = ""
+  return sorted(found - STOPSKILLS)
 
 if __name__ == "__main__":
           mcp.run()
