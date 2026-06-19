@@ -7,6 +7,7 @@ import asyncio
 from mcp.server.fastmcp import FastMCP
 from sources import remoteok, remotive, hn
 from models import Fact
+import scoring
 
 SKILLS_FILE = Path(__file__).parent / "data" / "skills.txt"
 SKILLS = {line.strip() for line in SKILLS_FILE.read_text(encoding="utf-8").splitlines() if line.strip()}
@@ -105,6 +106,16 @@ def extract_facts(resume_text: str) -> list[dict]:
     )
     facts.append(fact)
   return [f.model_dump() for f in facts]
+
+
+@mcp.tool()
+def score_fit(resume_text: str, job_text: str) -> dict:
+  """Score how well a resume fits a job, matching skills by meaning, not just exact words. Pass raw resume text and raw job description text; returns score (0-100), matched skills, and missing skills."""
+  job_skills = sorted(set(extract_skills(job_text)))
+  my_skills = set()
+  for fact in extract_facts(resume_text):
+    my_skills.update(fact["tags"])
+  return scoring.score(job_skills, sorted(my_skills))
 
 if __name__ == "__main__":
           mcp.run()
