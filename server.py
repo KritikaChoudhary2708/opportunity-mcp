@@ -9,8 +9,12 @@ from sources import remoteok, remotive, hn
 from models import Fact
 import scoring
 import geonamescache
+from rank import rank_opportunities
+import time
 
 
+_SEARCH_CACHE: dict = {}
+_SEARCH_TTL = 600  # seconds (10 minutes)
 _CITIES = geonamescache.GeonamesCache().get_cities()
 SKILLS_FILE = Path(__file__).parent / "data" / "skills.txt"
 SKILLS = {line.strip() for line in SKILLS_FILE.read_text(encoding="utf-8").splitlines() if line.strip()}
@@ -37,13 +41,19 @@ async def search(query: str = "", limit: int = 10, sources: list[str] | None = N
           query: Keyword matched against job title and skills, e.g. "python" or "llm". Empty returns the most recent listings.
           limit: Maximum number of results to return.
           sources: Which sources to search, e.g. ["remoteok", "remotive"]. Omit to search all."""
-
+          
+          key = (query, limit, tuple(sources or []))
+          cached = _SEARCH_CACHE.get(key)
+          if cached and time.time() - cached[0] < _SEARCH_TTL:
+            return cached[1]
           chosen = sources or list(SOURCES)
           fetchers = [SOURCES[s](query=query, limit=limit) for s in chosen if s in SOURCES]
           results = await asyncio.gather(*fetchers)
           merged = [o for group in itertools.zip_longest(*results) for o in group if o is not None]
 
-          return [o.model_dump() for o in merged[:limit]]
+          out = [o.model_dump() for o in merged[:limit]]
+          _SEARCH_CACHE[key] = (time.time(), out)
+          return out
 
 
 @mcp.tool()
@@ -150,6 +160,13 @@ def score_fit(resume_text: str, job_text: str, candidate_location: str = "", job
   return scoring.score(job_skills, sorted(my_skills), required_mandatory, preferred_in_job, held,
                        candidate_coords=_geocode(candidate_location), job_coords=_geocode(job_location),
                        remote=remote, blue_collar=blue_collar, can_relocate=can_relocate)
+
+@mcp.tool()
+async def rank(query: str, resume_text: str, sources: list[str] | None = None, limit: int = 10, candidate_location: str = "", can_relocate: bool = False) -> list[dict]:
+  """Search jobs and rank them by fit to the resume, best first. Each result has its fit score and matched/missing skills. Ask the user for their location and whether they can relocate."""
+  jobs = await search(query, limit, sources)
+  return rank_opportunities(jobs, resume_text, score_fit, candidate_location, can_relocate)
+
 
 if __name__ == "__main__":
           mcp.run()
