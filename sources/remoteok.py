@@ -23,7 +23,8 @@ def _normalize(raw:dict)-> Opportunity:
                     date=(raw.get("date") or "")[:10],
                     skills=raw.get("tags") or [],
                     salary=salary,
-                    snippet=snippet
+                    snippet=snippet,
+                    description=desc
           )
 
 

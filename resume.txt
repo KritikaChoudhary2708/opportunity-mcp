@@ -1,0 +1,57 @@
+Kritika Choudhary
+Noida | kritikachoudhary1996@gmail.com | 8764472248 | linkedin.com/in/kritika-choudhary2708
+Summary
+Results-driven engineer with 3+ years of experience building intelligent, scalable applications and extracting actionable insights from complex datasets. Architected real-time data processing systems, automated decision workflows, and high-performance web platforms serving end-to-end business operations. Proficient in Python, Kotlin, TypeScript, and JavaScript with hands-on expertise in AI/ML integration (Google Gemini / Vertex AI), GPU kernel programming, and cloud infrastructure (GCP, AWS). Passionate about applying machine learning, NLP, LLM evaluation, and AI-powered automation to solve high-impact business problems.
+Education
+Indian Institute of Technology Jodhpur2025-Present
+M.Tech in Artificial Intelligence and Machine Learning
+M.B.M. Engineering College2014-2018
+B.Tech in Electronics and Computer Science
+Experience
+Software Engineer, Thar Digital Service - Remote2023-2026
+• Architected and shipped a full-scale AI-powered invoice management platform (Kotlin/Vert.x backend, Vue.js frontend), enabling automated document processing, intelligent billing workflows, and multi-channel delivery across 4 channels (email, SMS, e-bill, postal) - serving an 825+ file backend codebase with 100 REST API endpoints.
+• Built an AI-powered document intelligence pipeline using Google Gemini 2.5 Flash via Vertex AI, enabling automatic extraction of 9+ structured fields (invoice number, dates, amounts, payer details, addresses) directly from uploaded PDF invoices - eliminating manual data entry for batch invoice uploads.
+• Integrated the AI extraction pipeline into the multi-upload batch processing system, enabling real-time PDF scanning at scale with WebSocket-based progress updates, cloud storage upload, and graceful error handling per-PDF without blocking the batch.
+• Built high-performance, data-driven UI components including tables with server-side pagination handling 10K+ records, multistep smart forms with automated validation, and real-time PDF invoice rendering - cutting page load times and improving data throughput.
+• Designed and integrated a flexible payment orchestration layer supporting multiple payment gateways (Concardis/Payengine, SaferPay) with a configurable preferences engine, allowing users to customize invoice delivery and payment workflows without code changes.
+Key Skills & Technologies: Kotlin, Vert.x 4, MongoDB, Redis, Google Vertex AI (Gemini 2.5 Flash), GCP Cloud Storage, AWS S3, Vue.js 3, TypeScript, JavaScript (ES6+), Vuetify, SCSS, RESTful APIs, WebSocket, JWT, Git, Vite
+Data Analyst, Microenergy Consultant2022-2023
+• Analyzed and assessed more than 600 data sheets in Excel to evaluate energy conservation practices in cooking fuel consumption across three diverse regions: Bangladesh, Cambodia, and Tanzania.
+• Conducted a comprehensive data analysis, including data cleaning, transformation, and visualization, to identify critical insights.
+• The findings contributed to the development of strategic recommendations for optimizing energy conservation efforts in these regions, making a substantial impact on sustainable cooking practices.
+Key Skills & Technologies: Excel, Spreadsheets, Teamwork, Time management, Communication, Presentation skills
+Projects
+Flash Attention Implementation from Scratch | Systems · GPU Programming · M.Tech Project
+• Implemented Flash Attention (Dao et al., 2022) from scratch on Apple M2 GPU using Metal compute shaders (C++14) and Apple MLX, achieving ≥2× speedup at seq_len=512 and ≥3× at seq_len=1024 over standard attention.
+
+• Engineered tiled attention kernel with block_size=32, reducing peak memory usage by ≥90% at seq_len=1024 via online softmax with recomputation-based backward pass.
+• Designed GPU memory tiling strategy within an 8GB shared-memory constraint (5.5 GB usable), respecting MacBook Air M2 thermal limits - no active cooling.
+• Validated numerical correctness against PyTorch attention baseline (max diff < 1e-3) and integrated the kernel as a drop-in replacement in GPT-2 small.
+• Produced Roofline model analysis quantifying compute vs. memory bandwidth bottlenecks on Apple Silicon's unified memory architecture.
+Key Skills & Technologies: Apple Metal, MLX, C++14, GPU Kernel Programming, Online Softmax, Transformer Internals, Performance Profiling, Roofline Analysis, Python, PyTorch
+Multi-Agent RAG System | LLM · RAG · MLOps
+• Built a 5-agent RAG pipeline (Ingestion, Retrieval, Synthesis, Query Decomposition, Evaluation) over SEC 10-K filings using LLaMA 3.1 8B on Groq.
+• Implemented hybrid BM25 + dense vector search with Reciprocal Rank Fusion (RRF) on ChromaDB for improved retrieval accuracy.
+• Achieved near-perfect RAGAS scores: Faithfulness 1.0, Answer Relevancy 0.998, Context Recall 1.0, Context Precision 1.0.
+• Integrated automated RAGAS evaluation gate in GitHub Actions CI/CD - blocks merge on quality regression.
+Key Skills & Technologies: Python, LangChain, ChromaDB, Groq (LLaMA 3.1), BM25, Dense Vector Search, RAGAS, Streamlit, GitHub Actions
+LLM Eval & Red-Teaming Platform | LLM Evaluation · Safety · MLOps
+• Designed a 27-prompt adversarial test suite across 6 attack categories (prompt injection, jailbreak, hallucination traps, context poisoning, bias probes, multi-hop confusion).
+• Built an async evaluation runner using asyncio + LiteLLM to evaluate multiple LLMs concurrently across providers (Groq, OpenAI, Gemini).
+• Implemented an ensemble judge (rule-based + LLM-as-judge via Gemini Flash) with Cohen's kappa inter-rater agreement and bootstrap confidence intervals.
+• Built a model leaderboard with FastAPI backend + Streamlit UI; auto-generates PDF safety reports in CI/CD pipeline.
+Key Skills & Technologies: Python, LiteLLM, asyncio, FastAPI, Streamlit, Groq, Gemini Flash, LLM-as-Judge, Red-Teaming, GitHub Actions CI/CD
+Hinglish NER Pipeline | NLP · MLOps · Deployment
+• Built first open-source NER system for Hindi-English (Hinglish) code-switched text, extracting 6 entity types (PERSON, ORG, LOCATION, PRODUCT, DATE, MONEY).
+• Fine-tuned XLM-RoBERTa via spaCy on self-curated 2,169-sentence dataset; achieved F1=74.10 (P=79.12, R=69.68).
+• Cut annotation time 60% using GLiNER as zero-shot pre-annotator before Label Studio manual review.
+• Deployed FastAPI REST API (/ner, /ner/batch) + Gradio interactive demo.
+• Published model + dataset to HuggingFace Hub with full model card and limitations documentation.
+• Versioned data pipeline with DVC; tested with pytest.
+Key Skills & Technologies: Python, spaCy, XLM-RoBERTa, GLiNER, HuggingFace Transformers, FastAPI, Gradio, Label Studio, DVC, Kaggle GPU, NLP, NER, Fine-tuning, Transfer Learning, REST APIs, pytest
+Skills
+AI/ML & NLP: Python, LangChain, RAG, ChromaDB, BM25 + Dense Hybrid Search, RAGAS, LiteLLM, Groq (LLaMA 3.1), LLM Evaluation, Red-Teaming, LLM-as-Judge, spaCy, XLM-RoBERTa, GLiNER, HuggingFace Transformers, Prompt Engineering, Fine-tuning, NER, Transfer Learning
+GPU & Systems: Apple Metal, MLX, GPU Kernel Programming, Online Softmax, C++14, Performance Profiling, Roofline Analysis
+Backend & APIs: FastAPI, Kotlin, Vert.x 4, asyncio, RESTful APIs, WebSocket, JWT, pytest
+Frontend & UI: Streamlit, Gradio, Vue.js 3, TypeScript, JavaScript (ES6+), Vuetify, SCSS
+Cloud & MLOps: Google Vertex AI (Gemini 2.5 Flash), GCP Cloud Storage, AWS S3, GitHub Actions CI/CD, DVC, Label Studio, HuggingFace Hub, Git

@@ -11,14 +11,14 @@ import scoring
 import geonamescache
 from rank import rank_opportunities
 import time
-
+import readiness
 
 _SEARCH_CACHE: dict = {}
 _SEARCH_TTL = 600  # seconds (10 minutes)
 _CITIES = geonamescache.GeonamesCache().get_cities()
 SKILLS_FILE = Path(__file__).parent / "data" / "skills.txt"
 SKILLS = {line.strip() for line in SKILLS_FILE.read_text(encoding="utf-8").splitlines() if line.strip()}
-STOPSKILLS = {"computer", "engineering", "design", "database", "software", "it", "data"}
+STOPSKILLS = {"computer", "engineering", "design", "database", "software", "it", "data", "re", "source", "signing", "control", "communication", "energy", "english", "hindi"}
 SOURCES = {"remoteok": remoteok.fetch, "remotive": remotive.fetch, "hn": hn.fetch}
 MANDATORY_LICENSES_FILE = Path(__file__).parent / "data" / "licenses_mandatory.txt"
 PREFERRED_LICENSES_FILE = Path(__file__).parent / "data" / "licenses_preferred.txt"
@@ -167,6 +167,20 @@ async def rank(query: str, resume_text: str, sources: list[str] | None = None, l
   jobs = await search(query, limit, sources)
   return rank_opportunities(jobs, resume_text, score_fit, candidate_location, can_relocate)
 
+
+@mcp.tool()
+async def market_readiness(resume_text: str, sources: list[str] | None = None, limit_per_skill: int = 5, candidate_location: str = "", can_relocate: bool = True) -> dict:
+  """Scan the job market with a resume: search jobs matching your top skills, score each, and report how prepared you are - average fit, how many roles you're eligible for, and the most in-demand skills you're missing (your study list). Pass your real resume text."""
+  my_skills = extract_skills(resume_text)
+  jobs, seen = [], set()
+  for q in readiness.top_skills(resume_text, my_skills, 3):
+    for job in await search(q, limit_per_skill, sources):
+      key = job.get("url") or (job.get("source"), job.get("id"))
+      if key not in seen:
+        seen.add(key)
+        jobs.append(job)
+  ranked = rank_opportunities(jobs, resume_text, score_fit, candidate_location, can_relocate)
+  return readiness.summarize(ranked, my_skills)
 
 if __name__ == "__main__":
           mcp.run()

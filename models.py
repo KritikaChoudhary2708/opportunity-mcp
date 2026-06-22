@@ -17,6 +17,7 @@ class Opportunity(BaseModel):
           skills: list[str] = Field(default_factory=list, description="Tags / extracted skills")
           salary: str = Field("", description="Normalized salary range, may be empty")
           snippet: str = Field("", description="Short description excerpt")
+          description: str = Field("", description="Full description of the role or gig")
 
 
 class Fact(BaseModel):

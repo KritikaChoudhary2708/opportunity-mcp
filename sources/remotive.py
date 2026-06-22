@@ -30,6 +30,7 @@ def _normalize(raw: dict) -> Opportunity:
                     skills=raw.get("tags") or [],
                     salary=raw.get("salary") or "",
                     snippet=snippet,
+                    description=desc
           )
 
 async def fetch(query: str = "", limit: int = 20) -> list[Opportunity]:

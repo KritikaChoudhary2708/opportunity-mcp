@@ -27,6 +27,7 @@ def _normalize(raw: dict) -> Opportunity:
                     skills=[],
                     salary="",
                     snippet=text[:200],
+                    description=text
           )
 
 async def _latest_hiring_story(client) -> str:

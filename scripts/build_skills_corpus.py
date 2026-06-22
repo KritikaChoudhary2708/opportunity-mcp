@@ -64,6 +64,10 @@ BOOSTER = [
     "full stack", "full-stack", "api", "apis",
     # common abbreviations (canonicalized by ALIASES in scoring.py)
     "k8s", "k8", "js", "ts", "postgres", "psql", "ci/cd",
+    # ML/NLP terms (these live in ESCO altLabels; re-added here as an allowlist
+    # because we drop altLabels for precision)
+    "ml", "nlp", "retrieval", "transformer", "data processing",
+    "vector search", "semantic search",
     # databases
     "mysql", "postgresql", "sqlite", "oracle", "sql server", "mongodb",
     "cassandra", "redis", "elasticsearch", "dynamodb", "neo4j", "snowflake",
@@ -133,21 +137,23 @@ def main() -> None:
     csv.field_size_limit(10 ** 7)
     esco = fetch(ESCO_URL).decode("utf-8", "replace")
     for row in csv.DictReader(io.StringIO(esco)):
-        cells = [row.get("PREFERREDLABEL", "")] + (row.get("ALTLABELS", "") or "").split("\n")
+        # preferredLabel only. ESCO altLabels (~84k synonyms) are 6x the main
+        # labels and where most of the generic noise lives, so we drop them.
+        cells = [row.get("PREFERREDLABEL", "")]
         for cell in cells:
             v = norm(cell)
             if ok(v):
                 cross.add(v)
-
+ 
     tech_sorted = sorted(tech)
     cross_sorted = sorted(cross - tech)
     all_skills = tech_sorted + cross_sorted
-
+ 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("\n".join(all_skills) + "\n", encoding="utf-8")
     print(f"wrote {OUT}: {len(all_skills)} skills "
           f"({len(tech_sorted)} tech + {len(cross_sorted)} cross-domain)")
-
-
+ 
+ 
 if __name__ == "__main__":
     main()

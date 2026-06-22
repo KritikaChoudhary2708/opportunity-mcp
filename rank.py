@@ -6,7 +6,7 @@ def rank_opportunities(jobs: list[dict], resume_text: str, score_fn, candidate_l
   """Score each job with score_fn and return them sorted best-first. score_fn is injected so this module never imports the server (no circular import)."""
   ranked = []
   for job in jobs:
-    job_text = " ".join([job.get("title", ""), job.get("snippet", ""), " ".join(job.get("skills") or [])])
+    job_text = " ".join([job.get("title", ""), job.get("description") or job.get("snippet", ""), " ".join(job.get("skills") or [])])
     try:
       fit = score_fn(resume_text, job_text, candidate_location, job.get("location", ""), can_relocate)
     except Exception:
