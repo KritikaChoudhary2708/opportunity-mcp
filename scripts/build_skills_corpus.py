@@ -62,6 +62,8 @@ BOOSTER = [
     "streaming", "evals", "observability", "supabase", "cursor", "copilot",
     "github copilot", "claude code", "codex", "agentic", "ai agents",
     "full stack", "full-stack", "api", "apis",
+    # common abbreviations (canonicalized by ALIASES in scoring.py)
+    "k8s", "k8", "js", "ts", "postgres", "psql", "ci/cd",
     # databases
     "mysql", "postgresql", "sqlite", "oracle", "sql server", "mongodb",
     "cassandra", "redis", "elasticsearch", "dynamodb", "neo4j", "snowflake",

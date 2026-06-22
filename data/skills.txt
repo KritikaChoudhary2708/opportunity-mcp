@@ -154,6 +154,9 @@ java
 javascript
 jenkins
 jquery
+js
+k8
+k8s
 kafka
 kanban
 keras
@@ -219,6 +222,7 @@ pinecone
 platform interconnectivity software
 plotly
 portal server software
+postgres
 postgresql
 power bi
 powerpoint
@@ -233,6 +237,7 @@ project management
 project management software
 prometheus
 prompt engineering
+psql
 python
 pytorch
 qdrant
@@ -291,6 +296,7 @@ time accounting software
 tool calling
 transaction server software
 transformers
+ts
 typescript
 vector database
 video conferencing software
@@ -45693,7 +45699,6 @@ post summons
 post writ
 postedit
 postediting
-postgres
 postnatal legal protection
 postpartum legal protection
 postpartum period

@@ -1,0 +1,41 @@
+Role Title
+
+ML Ops Engineer – Contract Service Worker (CSW) - 6 Months
+
+Engagement Overview
+
+We are seeking a contract ML Ops Engineer to support the deployment, automation, and operationalization of machine learning solutions in a production environment. This role is handson and deliveryfocused, working closely with data scientists and engineering teams to ensure ML models are reliably deployed, monitored, and maintained.
+
+This engagement is best suited for a seniorlevel individual contributor with strong ML Ops and software engineering experience. Prior exposure to utility or energy industry data is a strong plus.
+
+Primary Responsibilities
+
+• Deploy and support production ML workloads, including environment setup, dependency management, and configuration
+• Build and maintain endtoend ML pipelines, from model handoff through deployment and retraining
+• Manage model lifecycle processes, including versioning, promotion, and traceability using a model registry and feature store
+• Orchestrate and schedule workflows using Databricks Jobs / Workflows
+• Implement and maintain CI/CD pipelines for ML systems, including source control integration and containerized deployments
+• Enable experiment tracking and governance using tools such as MLflow
+• Monitor deployed models and pipelines; troubleshoot production issues and support continuous improvements
+• Collaborate with data scientists to productionize models (this role does not require deep model research or experimentation ownership)
+Required Skills & Experience
+
+• 5+ years of experience in ML Ops, ML Engineering, with a strong focus on production ML
+• Handson experience with Databricks for ML deployment and workflow orchestration
+• Strong experience with CI/CD practices for ML or data platforms (e.g., GitHub, Docker)
+• Experience with model registries, feature stores, and experiment tracking (MLflow or equivalent)
+• Proficiency in Python and productionquality coding practices
+• Familiarity with common ML libraries and frameworks (e.g., scikitlearn, XGBoost, TensorFlow, Spark MLlib)
+• Experience working with distributed or parallel processing frameworks (Spark, Ray, Dask, joblib)
+Preferred / NicetoHave
+
+• Experience working with utility, energy, or operational analytics data
+• Exposure to regulated or enterprise data environments
+• Familiarity with cloudbased analytics or data platforms
+Engagement Details for Vendors
+
+• Engagement Type: Contract Service Worker (CSW) – 6 months (Apr – Sep)
+• Role Type: Individual contributor, handson delivery
+• Focus Area: ML Ops, production deployment, automation, reliability
+• Key Success Criteria: Ability to independently deploy, automate, and operationalize ML solutions with minimal rampup
+ 
