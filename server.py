@@ -12,6 +12,7 @@ import geonamescache
 from rank import rank_opportunities
 import time
 import readiness
+import tailor
 
 _SEARCH_CACHE: dict = {}
 _SEARCH_TTL = 600  # seconds (10 minutes)
@@ -181,6 +182,13 @@ async def market_readiness(resume_text: str, sources: list[str] | None = None, l
         jobs.append(job)
   ranked = rank_opportunities(jobs, resume_text, score_fit, candidate_location, can_relocate)
   return readiness.summarize(ranked, my_skills)
+
+@mcp.tool()
+def build_resume(resume_text: str, job_text: str) -> dict:
+  """Tailor a resume to a job by SELECTING the candidate's true facts that cover the job's required skills. Pass raw resume and job text. Returns Markdown built ONLY from real facts (with fact-id provenance), the used fact ids, and covered vs uncovered required skills. It never invents experience."""
+  facts = extract_facts(resume_text)
+  required = extract_skills(job_text)
+  return tailor.build_resume(facts, required, scoring.semantic_split)
 
 if __name__ == "__main__":
           mcp.run()
